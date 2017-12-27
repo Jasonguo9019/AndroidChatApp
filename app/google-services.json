@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "760190032490",
+    "firebase_url": "https://androidchatapp-8ccd2.firebaseio.com",
+    "project_id": "androidchatapp-8ccd2",
+    "storage_bucket": "androidchatapp-8ccd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760190032490:android:0522cca48fba7396",
+        "android_client_info": {
+          "package_name": "com.example.jerry.androidchatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760190032490-1jhgrecdthtqb4im1e2ij7dgkosbopip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jerry.androidchatapp",
+            "certificate_hash": "73074c118cb4ea599dff0af1c774eb558fc5525b"
+          }
+        },
+        {
+          "client_id": "760190032490-g3gp6uqio5sv69mv2cimj1cal49n2mlp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAchYuvwsWlFOw5vYCWJ3D6X6C8QPazjUc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760190032490-g3gp6uqio5sv69mv2cimj1cal49n2mlp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
