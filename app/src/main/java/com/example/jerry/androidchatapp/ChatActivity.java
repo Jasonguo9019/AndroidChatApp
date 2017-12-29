@@ -67,10 +67,15 @@ public class ChatActivity extends AppCompatActivity {
         String message = messageInput.getText().toString();
         //Here we are instantiating our Message class by passing in variables through its constructor.
         Intent getIntent = getIntent();
-        Message myMessage = new Message(getIntent.getStringExtra("USER_NAME"), 1000, message, getIntent.getStringExtra("CHATROOM_NAME"), getIntent.getBooleanExtra("INCOGNITO_MODE",false));
+        Message myMessage = new Message(getIntent.getStringExtra("USER_NAME"), getCurrentTime(), message, getIntent.getStringExtra("CHATROOM_NAME"), getIntent.getBooleanExtra("INCOGNITO_MODE",false));
+        Map<String, JSONObject> myMessageData = myMessage.messageData();
+        Firebase messageRef = ref.child("message");
+        messageRef .setValue(myMessageData); 
 
     }
 
+    public long getCurrentTime(){
+      return new java.util.Date().getTime();
+    }
+
 }
-
-
