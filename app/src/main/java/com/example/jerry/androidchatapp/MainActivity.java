@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText chatroomNameInput;
     EditText Usernameinput;
+
     Switch IncModeinput;
     ListView listview;
 

@@ -12,14 +12,14 @@ import java.util.Map;
  * Created by jerry on 12/21/2017.
  */
 
-public class MessageClass {
+public class Message {
     String username;
     String message;
     String chatroomName;
     long sendTime;
     Boolean Incognito;
 
-    public MessageClass(String username, long sendTime, String message, String chatroomName, Boolean Incognito) {
+    public Message(String username, long sendTime, String message, String chatroomName, Boolean Incognito) {
 
         this.username = username;
         this.sendTime = sendTime;
@@ -40,6 +40,7 @@ public class MessageClass {
             obj.put("Incognito", Incognito);
 
             //All your JSON handling goes here.
+            userMap.put("message", obj);
         }
         catch (Exception e){
             e.printStackTrace();

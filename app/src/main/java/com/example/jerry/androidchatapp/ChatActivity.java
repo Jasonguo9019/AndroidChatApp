@@ -29,9 +29,10 @@ public class ChatActivity extends AppCompatActivity {
     ListView listview;
     public static FirebaseDatabase dataBase;
     public static DatabaseReference ref;
+    EditText messageInput;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -39,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
         ref = dataBase.getReference();
 
         setContentView(R.layout.chat_activity);
+        messageInput = (EditText) findViewById(R.id.Message_text_input);
         Intent getIntent = getIntent();
         Log.e("test1", "hi");
         String chatRoomName = getIntent.getStringExtra("CHATROOM_NAME");
@@ -55,15 +57,20 @@ public class ChatActivity extends AppCompatActivity {
         foodList.add("Bananas");
         foodList.add("Apples");
 
-        listview = (ListView)findViewById(R.id.list_view);
-        MyAdapter adapter = new MyAdapter(getApplicationContext(),foodList, ChatActivity.this);
+        listview = (ListView) findViewById(R.id.list_view);
+        MyAdapter adapter = new MyAdapter(getApplicationContext(), foodList, ChatActivity.this);
         listview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
 
-
+    public void sendMessage(View view) {
+        String message = messageInput.getText().toString();
+        //Here we are instantiating our Message class by passing in variables through its constructor.
+        Intent getIntent = getIntent();
+        Message myMessage = new Message(getIntent.getStringExtra("USER_NAME"), 1000, message, getIntent.getStringExtra("CHATROOM_NAME"), getIntent.getBooleanExtra("INCOGNITO_MODE",false));
 
     }
-}
 
+}
 
 

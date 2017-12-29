@@ -4,7 +4,7 @@
 
     <EditText
     android:hint="Chat!"
-    android:id="@+id/Chatroom_text_input"
+    android:id="@+id/Message_text_input"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
