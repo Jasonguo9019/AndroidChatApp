@@ -70,7 +70,7 @@ public class ChatActivity extends AppCompatActivity {
         Message myMessage = new Message(getIntent.getStringExtra("USER_NAME"), getCurrentTime(), message, getIntent.getStringExtra("CHATROOM_NAME"), getIntent.getBooleanExtra("INCOGNITO_MODE",false));
         Map<String, JSONObject> myMessageData = myMessage.messageData();
         Firebase messageRef = ref.child("message");
-        messageRef .setValue(myMessageData); 
+        messageRef.setValue(myMessageData); 
 
     }
 
