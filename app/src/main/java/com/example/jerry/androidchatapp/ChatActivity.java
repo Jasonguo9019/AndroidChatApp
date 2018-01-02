@@ -30,6 +30,8 @@ public class ChatActivity extends AppCompatActivity {
     public static FirebaseDatabase dataBase;
     public static DatabaseReference ref;
     EditText messageInput;
+    String userName;
+    String chatRoomName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,39 +45,72 @@ public class ChatActivity extends AppCompatActivity {
         messageInput = (EditText) findViewById(R.id.Message_text_input);
         Intent getIntent = getIntent();
         Log.e("test1", "hi");
-        String chatRoomName = getIntent.getStringExtra("CHATROOM_NAME");
+        chatRoomName = getIntent.getStringExtra("CHATROOM_NAME");
         Log.e("chatroom name", chatRoomName);
-        String username = getIntent.getStringExtra("USER_NAME");
+        username = getIntent.getStringExtra("USER_NAME");
         Log.e("user name", username);
         Boolean Incognito = getIntent.getBooleanExtra("INCOGNITO_MODE", false);
         Log.e("Incognito Mode", String.valueOf(Incognito));
-        ArrayList foodList = new ArrayList();
 
-        foodList.add("Chips");
-        foodList.add("Pizza");
-        foodList.add("Hamburger");
-        foodList.add("Bananas");
-        foodList.add("Apples");
+
+
 
         listview = (ListView) findViewById(R.id.list_view);
-        MyAdapter adapter = new MyAdapter(getApplicationContext(), foodList, ChatActivity.this);
+        MyAdapter adapter = new MyAdapter(getApplicationContext(), listview, ChatActivity.this);
         listview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-    }
-
-    public void sendMessage(View view) {
-        String message = messageInput.getText().toString();
-        //Here we are instantiating our Message class by passing in variables through its constructor.
-        Intent getIntent = getIntent();
-        Message myMessage = new Message(getIntent.getStringExtra("USER_NAME"), getCurrentTime(), message, getIntent.getStringExtra("CHATROOM_NAME"), getIntent.getBooleanExtra("INCOGNITO_MODE",false));
-        Map<String, JSONObject> myMessageData = myMessage.messageData();
-        Firebase messageRef = ref.child("message");
-        messageRef.setValue(myMessageData); 
-
     }
 
     public long getCurrentTime(){
       return new java.util.Date().getTime();
     }
+    public void sendMessage(View view) {
+        String message = messageInput.getText().toString();
+        //Here we are instantiating our Message class by passing in variables through its constructor.
+        Intent getIntent = getIntent();
+        Message myMessage = new Message(userName, getCurrentTime(), message, chatRoomName, getIntent.getBooleanExtra("INCOGNITO_MODE",false));
+        Map<String, JSONObject> jsonMap = myMessage.messageData();
+        ref.child(chatRoomName).child(getCurrenTime()).setValue(jsonMap);
+
+
+    }
+
+    @Override
+    protected void onStart(){
+      super.onStart();
+      DatabaseReference chatRef = ref.child(chatRoomName);
+
+      chatRef.addValueEventListener(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnaptshot data : dataSnapshot.getChildren()){
+                try{
+                  JSONObject obj = new JSONObject(data.getValue().toString());
+                  String message  = obj.getString(“Message”);
+                  String userName = obj.getString("Username");
+                  Boolean incognito = Boolean.valueOf(obj.getString(“Incognito”));
+
+                  Message messageObject = new Message(username, data.getKey(), message, chatRoomName, incognito) ;
+
+                  listview.add(messageObject);
+                }catch(JSONException JE){
+                  //Your Log error message goes here
+                }
+            }
+
+
+
+          }
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+
+          }
+      });
+
+
+    }
+
+
 
 }
+//user id 760190032490

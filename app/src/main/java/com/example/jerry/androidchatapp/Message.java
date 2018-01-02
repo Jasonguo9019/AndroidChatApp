@@ -30,27 +30,21 @@ public class Message {
     }
     public Map<String, JSONObject> messageData(){
         //declare your JSONObjects here, as well as your Map
-        Map<String, JSONObject> messageMap= new HashMap<String, JSONObject>();
-
+        //Map<String, JSONObject> = new HashMap<String, JSONObject>();
+        JSONObject obj = new JSONObject();
         try{
-            JSONObject obj = new JSONObject();
-            obj.put("username", username);
-            obj.put("message", message);
+            obj.put("Username", username);
+            obj.put("Message", message);
             obj.put("Incognito", Incognito);
 
-            JSONObject sendTimeObj = new JSONObject();
-            sendTimeObj.put(Long.toString(sendTime), ojb);
-
-            JSONObject chartObj = new JSONObject();
-            chartObj.put(chartroomName, sendTimeObj);
-
-            //All your JSON handling goes here.
-            messageMap.put("myMessage", chartObj);
         }
         catch (Exception e){
             e.printStackTrace();
             Log.e("SOMETHINGWENTWRONG", "HERE");
     }
 
-        return messageMap;
+    Map<String, Object> jsonMap = new Gson().fromJson(obj.toString(), new TypeToken<HashMap<String, Object>>() {}.getType());
+
+
+    return jsonMap;
     }}
