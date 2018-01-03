@@ -2,9 +2,12 @@ package com.example.jerry.androidchatapp;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import java.lang.Object;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +46,7 @@ public class Message {
             Log.e("SOMETHINGWENTWRONG", "HERE");
     }
 
-    Map<String, Object> jsonMap = new Gson().fromJson(obj.toString(), new TypeToken<HashMap<String, Object>>() {}.getType());
+    Map<String, JSONObject> jsonMap = new Gson().fromJson(obj.toString(), new TypeToken<HashMap<String, JSONObject>>() {}.getType());
 
 
     return jsonMap;
