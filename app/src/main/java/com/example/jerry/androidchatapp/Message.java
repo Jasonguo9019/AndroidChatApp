@@ -31,7 +31,7 @@ public class Message {
         this.Incognito = Incognito;
 
     }
-    public Map<String, JSONObject> messageData(){
+    public JSONObject messageData(){
         //declare your JSONObjects here, as well as your Map
         //Map<String, JSONObject> = new HashMap<String, JSONObject>();
         JSONObject obj = new JSONObject();
@@ -44,10 +44,11 @@ public class Message {
         catch (Exception e){
             e.printStackTrace();
             Log.e("SOMETHINGWENTWRONG", "HERE");
+
+    }
+        return obj;
     }
 
-    Map<String, JSONObject> jsonMap = new Gson().fromJson(obj.toString(), new TypeToken<HashMap<String, JSONObject>>() {}.getType());
-
-
-    return jsonMap;
-    }}
+    public String getChatroomName() {return chatroomName; }
+    public Long getTimestamp() {return sendTime; }
+    }

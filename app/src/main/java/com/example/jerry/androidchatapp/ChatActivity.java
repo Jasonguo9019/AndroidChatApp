@@ -22,12 +22,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
@@ -39,6 +42,7 @@ public class ChatActivity extends AppCompatActivity {
     String userName;
     String chatRoomName;
     ArrayList messages = new ArrayList();
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +53,8 @@ public class ChatActivity extends AppCompatActivity {
         ref = dataBase.getReference();
 
         setContentView(R.layout.chat_activity);
-        messageInput = (EditText) findViewById(R.id.Message_text_input);
-        Intent getIntent = getIntent();
-        Log.e("test1", "hi");
-        chatRoomName = getIntent.getStringExtra("CHATROOM_NAME");
-        Log.e("chatroom name", chatRoomName);
-        userName = getIntent.getStringExtra("USER_NAME");
-        Log.e("user name", userName);
-        Boolean Incognito = getIntent.getBooleanExtra("INCOGNITO_MODE", false);
-        Log.e("Incognito Mode", String.valueOf(Incognito));
 
-
-
+        intent= getIntent();
 
         listview = (ListView) findViewById(R.id.list_view);
         MyAdapter adapter = new MyAdapter(getApplicationContext(), messages, ChatActivity.this);
@@ -73,11 +67,24 @@ public class ChatActivity extends AppCompatActivity {
         return new java.util.Date().getTime();
     }
     public void sendMessage(View view) {
+
+        messageInput = (EditText) findViewById(R.id.Message_text_input);
         String message = messageInput.getText().toString();
+        Log.e("test1", "hi");
+        chatRoomName = intent.getStringExtra("CHATROOM_NAME");
+        Log.e("chatroom name", chatRoomName);
+        userName = intent.getStringExtra("USER_NAME");
+        Log.e("user name", userName);
+        Boolean incognito = intent.getBooleanExtra("INCOGNITO_MODE", false);
+        Log.e("Incognito Mode", String.valueOf(incognito));
+
         //Here we are instantiating our Message class by passing in variables through its constructor.
-        Intent getIntent = getIntent();
-        Message myMessage = new Message(userName, getCurrentTime(), message, chatRoomName, getIntent.getBooleanExtra("INCOGNITO_MODE",false));
-        Map<String, JSONObject> jsonMap = myMessage.messageData();
+
+        Message myMessage = new Message(userName, getCurrentTime(), message, chatRoomName, incognito);
+        JSONObject messageObj = myMessage.messageData();
+
+
+        Map<String, JSONObject> jsonMap = new Gson().fromJson(messageObj.toString(), new TypeToken<HashMap<String, JSONObject>>() {}.getType());
         ref.child(chatRoomName).child(Long.toString(getCurrentTime())).setValue(jsonMap);
 
 
@@ -87,6 +94,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onStart(){
       super.onStart();
       DatabaseReference chatRef = ref.child(chatRoomName);
+      if(chatRef == null) {
+          return;
+      }
 
       chatRef.addValueEventListener(new ValueEventListener() {
           @Override
